@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, Req, HttpStatus, Get } from '@nestjs/common';
+import { Body, Controller, Post, Res, Req, HttpStatus, Get, ParseUUIDPipe, Param } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateCommentDto } from '../dto/create-comment.dto';
 import { CommentService } from '../services/comment.service';
@@ -7,6 +7,17 @@ import { CommentService } from '../services/comment.service';
 @Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
+  
+  @Get(':id')
+  @ApiOperation({ summary: 'Obter comentários por id' })
+  async getCommentsById(
+    @Res() response,
+    @Param('id') id: string 
+  ) {
+    const commentReponse = await this.commentService.getCommentsById(id);
+
+    response.status(HttpStatus.OK).send(commentReponse);
+  }
   
   @Get()
   @ApiOperation({ summary: 'Obter todos os comentários' })

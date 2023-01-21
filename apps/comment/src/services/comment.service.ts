@@ -11,6 +11,21 @@ export class CommentService {
     @InjectModel('comment') private readonly commentModel: Model<CommentDocument>
   ) { }
 
+  async getCommentsById(id: string) {
+    try {
+      const results = await this.commentModel.findById(id);
+
+      return CreateCommentDto.convertAllElements(
+        results.id, 
+        results.title,
+        results.body, 
+        results.author
+      );
+    } catch (ex) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+  }
+
   async getAllComments() {
     try {
 
@@ -22,6 +37,7 @@ export class CommentService {
         comments.push(
           CreateCommentDto.convertAllElements(
             item.id,
+            item.title,
             item.body,
             item.author,
           )
