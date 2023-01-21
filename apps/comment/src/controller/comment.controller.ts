@@ -1,11 +1,22 @@
-import { Body, Controller, Post, Res, Req, HttpStatus } from '@nestjs/common';
-import { ApiOperation } from '@nestjs/swagger';
+import { Body, Controller, Post, Res, Req, HttpStatus, Get } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateCommentDto } from '../dto/create-comment.dto';
 import { CommentService } from '../services/comment.service';
 
-@Controller('Comment')
+@ApiTags('Comment')
+@Controller('comment')
 export class CommentController {
   constructor(private readonly commentService: CommentService) {}
+  
+  @Get()
+  @ApiOperation({ summary: 'Obter todos os comentários' })
+  async getAllComments(
+    @Res() response    
+  ) {
+    const commentReponse = await this.commentService.getAllComments();
+
+    response.status(HttpStatus.OK).send(commentReponse);
+  }
 
   @Post()    
   @ApiOperation({ summary: 'Adicionar um comentário' })
@@ -20,4 +31,5 @@ export class CommentController {
       id: commentResponse
     })
   }
+
 }

@@ -11,6 +11,14 @@ export class CommentService {
     @InjectModel('comment') private readonly commentModel: Model<CommentDocument>
   ){}
 
+  async getAllComments() {
+    try{
+      return await this.commentModel.find();
+    } catch (ex) {
+      throw new InternalServerErrorException('Internal server error');
+    }
+  }
+
   async createUser(createCommentDto: CreateCommentDto) : Promise<Comment>{    
     try{
       const createComment = new this.commentModel(createCommentDto);
