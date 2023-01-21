@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, Req, HttpStatus, Get, ParseUUIDPipe, Param } from '@nestjs/common';
+import { Body, Controller, Post, Res, HttpStatus, Get, Param } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateCommentDto } from '../dto/create-comment.dto';
 import { CommentService } from '../services/comment.service';
